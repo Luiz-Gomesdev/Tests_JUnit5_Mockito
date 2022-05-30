@@ -1,0 +1,8 @@
+package br.com.gft.api.repositories;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository {
+
+}

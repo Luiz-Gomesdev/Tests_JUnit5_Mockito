@@ -1,0 +1,22 @@
+package br.com.gft.api.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
+import br.com.gft.api.domain.User;
+
+@Configuration
+@Profile("local")
+public class LocalConfig {
+	
+	@Bean
+	public void startDB() {
+		User u1 = new User(null, "Luiz", "luiz@email.com", "123456");
+		User u2 = new User(null, "Pedro", "pedro@email.com", "875456");
+				
+	}
+	
+
+
+}

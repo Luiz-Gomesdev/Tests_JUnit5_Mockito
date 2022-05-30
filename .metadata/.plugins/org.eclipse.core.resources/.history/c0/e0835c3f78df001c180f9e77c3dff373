@@ -1,0 +1,16 @@
+package br.com.gft.api.services.impl;
+
+import org.springframework.stereotype.Service;
+
+import br.com.gft.api.domain.User;
+import br.com.gft.api.services.UserService;
+
+@Service
+public class UserServiceImpl implements UserService{
+
+	@Override
+	public User findById(Integer id) {
+		return null;
+	}
+
+}

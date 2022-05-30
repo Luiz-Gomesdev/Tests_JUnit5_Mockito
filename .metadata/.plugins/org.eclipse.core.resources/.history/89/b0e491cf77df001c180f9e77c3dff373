@@ -1,0 +1,5 @@
+package br.com.gft.api.services.impl;
+
+public class UserServiceImpl {
+
+}

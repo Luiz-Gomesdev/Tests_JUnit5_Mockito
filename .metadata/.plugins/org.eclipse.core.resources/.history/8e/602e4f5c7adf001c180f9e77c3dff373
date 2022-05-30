@@ -1,0 +1,5 @@
+package br.com.gft.api.config;
+
+public class LocalConfig {
+
+}
