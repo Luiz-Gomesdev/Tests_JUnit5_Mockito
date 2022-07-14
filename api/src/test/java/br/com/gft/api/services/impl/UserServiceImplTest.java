@@ -3,6 +3,7 @@ package br.com.gft.api.services.impl;
 import br.com.gft.api.domain.User;
 import br.com.gft.api.domain.dto.UserDTO;
 import br.com.gft.api.repositories.UserRepository;
+import br.com.gft.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,6 +54,18 @@ class UserServiceImplTest {
         Assertions.assertEquals(ID, response.getId());
         Assertions.assertEquals(NAME, response.getName());
         Assertions.assertEquals(EMAIL, response.getEmail());
+    }
+
+    @Test
+    void whenFindByIdThenReturnAnObjectNotFoundException() {
+        Mockito.when(repository.findById(Mockito.anyInt())).thenThrow(new ObjectNotFoundException("Objeto não encontrado"));
+
+        try {
+            service.findById(ID);
+        } catch (Exception ex) {
+            Assertions.assertEquals(ObjectNotFoundException.class, ex.getClass());
+            Assertions.assertEquals("Objeto não encontrado", ex.getMessage());
+        }
     }
 
     @Test
