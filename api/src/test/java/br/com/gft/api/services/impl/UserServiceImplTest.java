@@ -3,6 +3,7 @@ package br.com.gft.api.services.impl;
 import br.com.gft.api.domain.User;
 import br.com.gft.api.domain.dto.UserDTO;
 import br.com.gft.api.repositories.UserRepository;
+import br.com.gft.api.services.exceptions.DataIntegratyViolationException;
 import br.com.gft.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -102,6 +103,16 @@ class UserServiceImplTest {
         Assertions.assertEquals(EMAIL, response.getEmail());
         Assertions.assertEquals(PASSWORD, response.getPassword());
 
+    } @Test
+    void whenCreateThenReturnAnDataIntegrityViolationException() {
+        Mockito.when(repository.findByEmail(Mockito.anyString())).thenReturn(optionalUser);
+
+        try {
+            service.create(userDTO);
+        } catch (Exception ex) {
+            Assertions.assertEquals(DataIntegratyViolationException.class, ex.getClass());
+            Assertions.assertEquals("Email já cadastrado no sistema", ex.getMessage());
+        }
     }
 
     @Test
