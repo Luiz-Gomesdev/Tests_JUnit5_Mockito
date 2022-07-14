@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -23,6 +24,7 @@ class UserServiceImplTest {
     public static final String NAME = "Luiz";
     public static final String EMAIL = "luiz@email.com";
     public static final String PASSWORD = "123";
+    public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
 
     @InjectMocks
     private UserServiceImpl service;
@@ -58,7 +60,7 @@ class UserServiceImplTest {
 
     @Test
     void whenFindByIdThenReturnAnObjectNotFoundException() {
-        Mockito.when(repository.findById(Mockito.anyInt())).thenThrow(new ObjectNotFoundException("Objeto não encontrado"));
+        Mockito.when(repository.findById(Mockito.anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
 
         try {
             service.findById(ID);
@@ -69,7 +71,20 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findAll() {
+    void whenFindAllThenReturnAnListOfUsers() {
+        Mockito.when(repository.findAll()).thenReturn(List.of(user));
+
+        List<User> response = service.findAll();
+
+        Assertions.assertNotNull(response);
+//        retorna uma lista com 1 usuario apenas
+        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals(User.class, response.get(0).getClass());
+
+        Assertions.assertEquals(ID, response.get(0).getId());
+        Assertions.assertEquals(NAME, response.get(0).getName());
+        Assertions.assertEquals(EMAIL, response.get(0).getEmail());
+        Assertions.assertEquals(PASSWORD, response.get(0).getPassword());
     }
 
     @Test
